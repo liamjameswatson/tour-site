@@ -43,7 +43,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Put helmet at top so it will set the rest of the headers
 // app.use(helmet());
 
-////////////////////////////////////////////////////////////////////////////
 
 // Further HELMET configuration for Security Policy (CSP)
 const scriptSrcUrls = [
@@ -93,7 +92,7 @@ app.use(
     policy: 'same-origin',
   })
 );
-///////////////////////////////////////////////////////////////////////
+
 
 //* Development Logging
 // console.log(`the value of process.env.NODE_ENV is ${process.env.NODE_ENV}`, typeof(process.env.NODE_ENV));
