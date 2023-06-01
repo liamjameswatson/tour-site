@@ -11,7 +11,7 @@ const multerFilter = (req, file, cb) => {
   // filter for only allowing image files to be uploaded.
   if (file.mimetype.startsWith('image')) {
     cb(null, true, () => {
-      console.log('hello from this callback function');
+      // console.log('hello from this callback function');
     });
   } else {
     cb(new AppError('Not an image! Please upload only images', 400), false);
@@ -31,8 +31,8 @@ export const uploadTourImages = upload.fields([
 
 export const resizeTourImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) {
-    console.log('no images found');
-    console.log(req.files);
+    // console.log('no images found');
+    // console.log(req.files);
     return next();
   }
 
@@ -49,7 +49,7 @@ export const resizeTourImages = catchAsync(async (req, res, next) => {
   //2) Multiple Images
   // for each image, process the image, save image(using unique file name and index 1,2,3 and push to array)
   req.body.images = [];
-  console.log(req.body.images);
+  // console.log(req.body.images);
   await Promise.all(
     // awaits for all files before next()
     req.files.images.map(async (file, i) => {
@@ -62,10 +62,10 @@ export const resizeTourImages = catchAsync(async (req, res, next) => {
         .toFile(`public/img/tours/${filename}`);
 
       req.body.images.push(filename);
-      console.log(req.body.images);
+      // console.log(req.body.images);
     })
   );
-  console.log(req.body);
+  // console.log(req.body);
   next();
 });
 

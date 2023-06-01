@@ -21,6 +21,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -42,7 +43,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Put helmet at top so it will set the rest of the headers
 // app.use(helmet());
-
 
 // Further HELMET configuration for Security Policy (CSP)
 const scriptSrcUrls = [
@@ -93,14 +93,13 @@ app.use(
   })
 );
 
-
 //* Development Logging
 // console.log(`the value of process.env.NODE_ENV is ${process.env.NODE_ENV}`, typeof(process.env.NODE_ENV));
 if (process.env.NODE_ENV.trim() === 'development') {
-  console.log('Using Morgan middleware');
+  // console.log('Using Morgan middleware');
   app.use(morgan('dev'));
 } else {
-  console.log('NODE_ENV is not "development"');
+  // console.log('NODE_ENV is not "development"');
 }
 
 //* Limit requests from same address
@@ -156,6 +155,8 @@ app.use(
     ],
   })
 );
+
+app.use(compression());
 
 // * Test middleware
 app.use((req, res, next) => {
