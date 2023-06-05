@@ -12,7 +12,7 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   // console.log('token =,', token);
   const cookieOptions = {
@@ -20,11 +20,8 @@ const createSendToken = (user, statusCode, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   };
-
-  if (process.env.NODE_ENV.trim() === 'production') {
-    cookieOptions.secure = true;
-  }
 
   // remove the password from the output
   user.password = undefined;
@@ -44,7 +41,7 @@ export const signUp = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}/me`;
   await new Email(newUser, url).sendWelcome();
   // console.log(url)
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
@@ -66,7 +63,7 @@ export const login = catchAsync(async (req, res, next) => {
 
   // If everything ok, send token to client
   // 3) send back token
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 export const logout = (req, res) => {
@@ -171,7 +168,6 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
-  
   // 3) Send token to email
   try {
     const resetURL = `${req.protocol}://${req.get(
@@ -220,7 +216,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   //3) Update changedPassword propert for the user
 
   //4) Log the user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 export const updatePassword = catchAsync(async (req, res, next) => {
@@ -238,5 +234,5 @@ export const updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   //4) Log user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
