@@ -15,17 +15,15 @@ const DB = process.env.DATABASE_STRING.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    console.log('DB connection successful');
-    // console.log(process.env);
-    // console.log(process.env.NODE_ENV);
-  });
+const options = { useUnifiedTopology: true };
 
-const port = 3000;
+mongoose.connect(DB, options).then(() => {
+  console.log('DB connection successful');
+  // console.log(process.env);
+  // console.log(process.env.NODE_ENV);
+});
+
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}`);
 });
