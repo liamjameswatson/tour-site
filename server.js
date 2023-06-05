@@ -15,7 +15,7 @@ const DB = process.env.DATABASE_STRING.replace(
   process.env.DATABASE_PASSWORD
 );
 
-const options = { useUnifiedTopology: true };
+const options = { useUnifiedTopology: true, useNewUrlParser: true };
 
 mongoose.connect(DB, options).then(() => {
   console.log('DB connection successful');
