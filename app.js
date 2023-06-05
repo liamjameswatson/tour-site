@@ -124,12 +124,18 @@ app.use(
 app.use(cookieParser());
 
 // Enable CORS using cors middleware
-app.use(
-  cors({
-    origin: 'http://127.0.0.1:3000/',
-    credentials: true, // Allows sending cookies across domains
-  })
-);
+// app.use(
+//   cors({
+//     origin: 'http://127.0.0.1:3000/',
+//     credentials: true, // Allows sending cookies across domains
+//   })
+// );
+
+// Implement cors
+app.use(cors());
+// Access-Control-Allow_Origin *   Allows app to be consumed by everyone on POST and GET
+
+app.options('*', cors()); // AAllows app to be consumed by everyone on PATCH and DELETE
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000/');
