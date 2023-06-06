@@ -70,6 +70,8 @@ export const webhookCheckout = (req, res, next, stripe) => {
   let event;
   try {
     event = stripe.webhooks.constructEvent(
+      console.log('stripe =', stripe),
+      console.log('event =', event),
       req.body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
