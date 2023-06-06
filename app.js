@@ -10,7 +10,7 @@ import userRouter from './routes/userRoutes.js';
 import reviewRouter from './routes/reviewRoutes.js';
 import viewRouter from './routes/viewRoutes.js';
 import bookingRouter from './routes/bookingRoutes.js';
-import { webhookCheckout } from './routes/bookingController.js';
+import { webhookCheckout } from './controller/bookingController.js';
 
 import { AppError } from './utils/appError.js';
 import globalErrorHandler from './controller/errorController.js';
