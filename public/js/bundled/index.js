@@ -11486,7 +11486,7 @@ const stripe = (0, _stripeDefault.default)("pk_test_51NCk7XHsEhTZcNCRwFCQsqbJ9QL
 const bookTour = async (tourId)=>{
     try {
         //1) Get checkout session from API endpoint
-        const session = await (0, _axiosDefault.default)(`/api/v1/booking/checkout-session/${tourId}`);
+        const session = await (0, _axiosDefault.default)(`/api/v1/bookings/checkout-session/${tourId}`);
         // console.log(session);
         //2) open the stripe checkout page (provided by the session.url)
         window.location.assign(session.data.session.url);
