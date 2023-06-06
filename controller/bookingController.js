@@ -5,11 +5,12 @@ import { Booking } from '../models/bookingModel.js';
 import * as factory from './handlerFactory.js';
 import { User } from '../models/userModel.js';
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 export const getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get current booked tour
   const tour = await Tour.findById(req.params.tourId);
   // 2) Create checkout sessions
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const session = await stripe.checkout.sessions.create({
     //info about session
     mode: 'payment',
@@ -65,7 +66,7 @@ export const createBookingCheckout = async (session) => {
   await Booking.create({ tour, user, price });
 };
 
-export const webhookCheckout = (req, res, next, stripe) => {
+export const webhookCheckout = (req, res, next) => {
   const signature = req.headers['stripe-signature'];
   let event;
   try {
