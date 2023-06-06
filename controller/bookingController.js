@@ -34,7 +34,7 @@ export const getCheckoutSession = catchAsync(async (req, res, next) => {
             images: [
               `${req.protocol}://${req.get('host')}/img/tours/${
                 tour.imageCover
-              }.jpg`,
+              }`,
             ],
           },
         },
