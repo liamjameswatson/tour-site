@@ -11,7 +11,7 @@ export const bookTour = async (tourId) => {
     //1) Get checkout session from API endpoint
 
     const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
-    // console.log(session);
+    console.log(session);
     //2) open the stripe checkout page (provided by the session.url)
     window.location.assign(session.data.session.url);
   } catch (err) {
