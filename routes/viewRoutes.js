@@ -8,11 +8,10 @@ import {
   getMyTours,
 } from '../controller/viewsContoller.js';
 import { isLoggedIn, protect } from '../controller/authController.js';
-import { createBookingCheckout } from '../controller/bookingController.js';
 
 const router = express.Router();
 
-router.get('/', createBookingCheckout, isLoggedIn, getOveverview);
+router.get('/', isLoggedIn, getOveverview);
 router.get('/tour/:slug', isLoggedIn, getTour);
 router.get('/login', isLoggedIn, getloginForm);
 router.get('/me', protect, getAccount);
