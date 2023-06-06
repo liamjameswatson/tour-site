@@ -32,7 +32,9 @@ export const getCheckoutSession = catchAsync(async (req, res, next) => {
             name: `${tour.name}`,
             description: `${tour.summary}`,
             images: [
-              `https://www.natours.dev/img/tours/${tour.imageCover}.jpg`,
+              `${req.protocol}://${req.get('host')}/img/tours/${
+                tour.imageCover
+              }.jpg`,
             ],
           },
         },
@@ -76,7 +78,7 @@ export const webhookCheckout = (req, res, next, stripe) => {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.complete') {
+  if (event.type === 'checkout.session.completed') {
     createBookingCheckout(event.data.object);
   }
   res.status(200).json({ received: true });
