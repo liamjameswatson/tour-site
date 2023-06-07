@@ -10,9 +10,9 @@ html
             link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
             script(src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js')
             link(href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet')
-            title Natours | #{title}
+            title Adventura | #{title}
 
-    body
+    body(data-alert=`${alert ? alert: ''}`)
 
         // HEADER
         include _header
