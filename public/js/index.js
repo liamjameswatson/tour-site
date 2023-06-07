@@ -2,6 +2,7 @@ import { displayMap } from './mapbox.js';
 import { logOut, login } from './login.js';
 import { updateSettings } from './updateSettings.js';
 import { bookTour } from './stripe.js';
+import { showAlert } from './alerts.js';
 //DOM Elements
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
@@ -73,3 +74,6 @@ if (bookBtn)
     const { tourId } = e.target.dataset; //the button id
     bookTour(tourId);
   });
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alert) showAlert('success', alertMessage, 20);

@@ -70,7 +70,7 @@ export class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Welcome to the Natours Family!');
+    await this.send('welcome', 'Welcome to the Adventura Family!');
   }
 
   async sendPasswordReset() {
