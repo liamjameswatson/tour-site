@@ -4,7 +4,7 @@ import { AppError } from '../utils/appError.js';
 import { User } from '../models/userModel.js';
 import { Booking } from '../models/bookingModel.js';
 
-export const alert = (req, res, next) => {
+export const alerts = (req, res, next) => {
   const { alert } = req.query;
   if (alert === 'booking') {
     res.locals.alert =
