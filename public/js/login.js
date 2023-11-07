@@ -40,6 +40,6 @@ export const logOut = async () => {
     }
   } catch (err) {
     // might be error if no internet connection
-    showAlert('error', 'Error loggin out. Please try again.');
+    showAlert('error', 'Error logging out. Please try again.');
   }
 };
