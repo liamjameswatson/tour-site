@@ -60,6 +60,15 @@ export const getloginForm = (req, res, next) => {
     });
 };
 
+export const getSignupForm = (req, res, next) => {
+  res.status(200)
+  .render('signUp', {
+    title: 'Sign up for your account',
+  })
+}
+
+
+
 export const getAccount = (req, res) => {
   res.status(200).render('account', {
     title: 'Your account',

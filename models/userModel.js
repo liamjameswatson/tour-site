@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: {
-    type: String ,
+    type: String,
     default: 'default.jpg',
   },
   role: {
@@ -63,7 +63,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// if password changed
+// if password changed or password is new change the passwordChangedAt value
 userSchema.pre('save', async function (next) {
   // if password hasn't been changed or user just been created (document is new), just go to next()
   if (!this.isModified('password') || this.isNew) return next();
