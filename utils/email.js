@@ -4,7 +4,6 @@ import { htmlToText } from 'html-to-text';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { setFlagsFromString } from 'v8';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,14 +20,14 @@ export class Email {
   }
   // 1) Create a transporter method -(a service that will send the email)
   newTransport() {
-    if (process.env.NODE_ENV !== 'production') {
-      // sendinblue
+    if (process.env.NODE_ENV === 'production') {
+      // brevo
       return nodemailer.createTransport({
-        host: process.env.SENDINBLUE_HOST,
-        port: process.env.SENDINBLUE_PORT,
+        host: process.env.BREVO_HOST,
+        port: process.env.BREVO_PORT,
         auth: {
-          user: 'liamjwatson@aol.com',
-          pass: 'xsmtpsib-e7bbdf0a3f6c01a949dcc44539f6562b7fde01762ae7fcee6e389f4e4c1babf1-XazLWsw6yf5GHKnO',
+          user: process.env.BREVO_USERNAME,
+          pass: process.env.BREVO_PASSWORD,
         },
       });
     } else {
@@ -45,16 +44,13 @@ export class Email {
   }
 
   // Send the actual email
-  async send(template, subject) {
+  async send(fileName, subject) {
     //1) Render HTML based on pug template
-    const html = pug.renderFile(
-      `${__dirname}/../views/emails/${template}.pug`,
-      {
-        firstName: this.firstName,
-        url: this.url,
-        subject,
-      }
-    );
+    const html = pug.renderFile(`${__dirname}/./emails/${fileName}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject,
+    });
 
     //2) Define the  email options
     const mailOptions = {
