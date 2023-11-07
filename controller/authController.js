@@ -36,14 +36,14 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
-export const signUp = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  const newUser = await User.create(req.body);
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  await new Email(newUser, url).sendWelcome();
-  // console.log(url)
-  createSendToken(newUser, 201, req, res);
-});
+// export const signUp = catchAsync(async (req, res, next) => {
+//   console.log(req.body);
+//   const newUser = await User.create(req.body);
+//   // const url = `${req.protocol}://${req.get('host')}/me`;
+//   // await new Email(newUser, url).sendWelcome();
+//   // console.log(url);
+//   createSendToken(newUser, 201, req, res);
+// });
 
 export const login = catchAsync(async (req, res, next) => {
   // const email = req.body.email;
@@ -65,6 +65,45 @@ export const login = catchAsync(async (req, res, next) => {
   // If everything ok, send token to client
   // 3) send back token
   createSendToken(user, 200, req, res);
+});
+
+export const signUp = catchAsync(async (req, res, next) => {
+  const { name, email, password, passwordConfirm } = req.body;
+
+  // Check for existing user
+  // const userExists = await User.findOne({ email });
+
+  // if (userExists && userExists.active === false) {
+  //   console.log('active user already');
+  // } else {
+  //   return next(new AppError('User already exists', 400));
+  // }
+
+  // else create new user
+  const newUser = await User.create({
+    name,
+    email,
+    password,
+    passwordConfirm,
+  });
+
+  if (newUser) {
+    // send an email
+    const url = `${req.protocol}://${req.get('host')}/me`;
+    await new Email(newUser, url).sendWelcome();
+
+    // if user generate a token and send info back to client
+    createSendToken(newUser, 201, req, res);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        user: newUser,
+      },
+    });
+  } else {
+    return next(new AppError('Invalid user data', 400));
+  }
 });
 
 export const logout = (req, res) => {
